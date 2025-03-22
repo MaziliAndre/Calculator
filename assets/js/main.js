@@ -1,7 +1,6 @@
 function createCalc(){
     return {
         display: document.querySelector('#display'),
-        btnClear: document.querySelector('.btn-clear'),
         
         
         initialize() {
@@ -12,6 +11,26 @@ function createCalc(){
             this.display.value = '';
         },
 
+        deleteOne(){
+            this.display.value = this.display.value.slice(0, -1);
+        },
+
+        doesEquation(){
+            let equation = this.display.value;
+            try{
+                equation = eval(equation);
+                if(!equation){
+                    alert('Invalid calculation');
+                    return;
+                }
+                this.display.value = equation;
+            }
+            catch(e) {
+                alert('Invalid calculation');
+                return;
+            }
+        },
+
         clickMethod() {
             document.addEventListener('click', (e) => {
                 const el = e.target;
@@ -20,6 +39,12 @@ function createCalc(){
                 }
                 if (el.classList.contains('btn-clear')){
                     this.clearDisplay();
+                }
+                if(el.classList.contains('btn-del')){
+                    this.deleteOne();
+                }
+                if(el.classList.contains('btn-eql')){
+                    this.doesEquation()
                 }
             });
         },
